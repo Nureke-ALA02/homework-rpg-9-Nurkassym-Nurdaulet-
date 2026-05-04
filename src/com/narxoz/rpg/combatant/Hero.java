@@ -117,21 +117,10 @@ public class Hero {
         return true;
     }
 
-    /**
-     * Adds gold to this hero.
-     *
-     * @param amount the gold to add; must be non-negative
-     */
     public void addGold(int amount) {
         gold += Math.max(0, amount);
     }
 
-    /**
-     * Spends gold if the hero has enough.
-     *
-     * @param amount the gold to spend; must be non-negative
-     * @return true if the gold was spent, false otherwise
-     */
     public boolean spendGold(int amount) {
         if (amount < 0 || amount > gold) {
             return false;
@@ -140,32 +129,29 @@ public class Hero {
         return true;
     }
 
-    /**
-     * Replaces the hero's inventory.
-     *
-     * @param inventory the new inventory; null creates an empty inventory
-     */
     public void setInventory(Inventory inventory) {
         this.inventory = inventory == null ? new Inventory() : inventory;
     }
 
-    /**
-     * Creates a memento placeholder for the hero's current state.
-     *
-     * @return a HeroMemento snapshot, or null in the scaffold
-     */
     public HeroMemento createMemento() {
-        // TODO: capture the full mutable state into a HeroMemento.
-        return null;
+        return new HeroMemento(
+                name,
+                hp,
+                mana,
+                gold,
+                maxHp,
+                attackPower,
+                defense,
+                inventory.getArtifacts()
+        );
     }
 
-    /**
-     * Restores this hero from a previously captured memento.
-     *
-     * @param memento the snapshot to restore from
-     */
-    public void restoreFromMemento(HeroMemento memento) {
-        // TODO: read the snapshot and restore the hero's mutable state.
+
+    public void restoreFromMemento(HeroMemento m) {
+        this.hp = m.getHp();
+        this.mana = m.getMana();
+        this.gold = m.getGold();
+        this.inventory = new Inventory(m.getInventorySnapshot());
     }
 
     @Override
