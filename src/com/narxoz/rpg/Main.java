@@ -1,20 +1,64 @@
 package com.narxoz.rpg;
 
-/**
- * Entry point for Homework 9 — Chronomancer's Vault: Visitor + Memento.
- *
- * The scaffold prints the banner only; students fill in the vault demo.
- */
+import com.narxoz.rpg.artifact.*;
+import com.narxoz.rpg.combatant.Hero;
+import com.narxoz.rpg.vault.ChronomancerEngine;
+import com.narxoz.rpg.vault.VaultRunResult;
+
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("=== Homework 9 Demo: Visitor + Memento ===");
 
-        // 1. Create at least 2 heroes with different starting states.
-        // 2. Build an artifact inventory and exercise the visitor interface.
-        // 3. Capture a hero snapshot through the memento workflow.
-        // 4. Rewind the hero after a vault trap changes state.
-        // 5. Run the ChronomancerEngine demo sequence.
-        // 6. Print a final VaultRunResult summary.
+        System.out.println("=== Homework 9: Visitor + Memento ===");
+
+        Inventory inventory = new Inventory();
+
+        inventory.addArtifact(
+                new Weapon("Dragon Sword", 150, 5, 20)
+        );
+
+        inventory.addArtifact(
+                new Potion("Healing Potion", 50, 1, 30)
+        );
+
+        inventory.addArtifact(
+                new Scroll("Ancient Scroll", 80, 1, "Fireball")
+        );
+
+        inventory.addArtifact(
+                new Ring("Ring of Wisdom", 120, 1, 10)
+        );
+
+        inventory.addArtifact(
+                new Armor("Knight Armor", 200, 10, 25)
+        );
+
+        Hero knight = new Hero(
+                "Knight",
+                120,
+                40,
+                15
+        );
+
+        knight.setInventory(inventory);
+
+        Hero mage = new Hero(
+                "Mage",
+                80,
+                100,
+                5
+        );
+
+        mage.setInventory(inventory);
+
+        ChronomancerEngine engine = new ChronomancerEngine();
+
+        VaultRunResult result =
+                engine.runVault(List.of(knight, mage));
+
+        System.out.println("\n=== FINAL RESULT ===");
+        System.out.println(result);
     }
 }

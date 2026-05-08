@@ -7,11 +7,15 @@ import com.narxoz.rpg.memento.Caretaker;
 import java.util.List;
 
 public class ChronomancerEngine {
+
     public VaultRunResult runVault(List<Hero> party) {
+
         int appraised = 0;
         int saved = 0;
         int restored = 0;
+
         for (Hero hero : party) {
+
             System.out.println("\n=== HERO: " + hero.getName() + " ===");
             System.out.println("Before: " + hero);
 
@@ -24,6 +28,7 @@ public class ChronomancerEngine {
             hero.addGold(50);
 
             System.out.println("After damage: " + hero);
+
             hero.restoreFromMemento(caretaker.undo());
             restored++;
 
@@ -32,12 +37,15 @@ public class ChronomancerEngine {
             System.out.println("\n--- APPRAISAL ---");
 
             Inventory inv = hero.getInventory();
+
             inv.accept(new GoldAppraiser());
             inv.accept(new CurseDetector());
             inv.accept(new EnchantmentScanner());
             inv.accept(new WeightCalculator());
+
             appraised += inv.size();
         }
+
         return new VaultRunResult(appraised, saved, restored);
     }
 }
